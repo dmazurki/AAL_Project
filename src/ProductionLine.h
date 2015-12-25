@@ -16,7 +16,7 @@ public:
     int correct(int referencePosition, int positionToCorrent);
     int & operator[](int index);
     void display() const;
-    int getN() const { return n};
+    int getN() const { return n;};
     int getK() const { return k;};
     ~ProductionLine();
 private:

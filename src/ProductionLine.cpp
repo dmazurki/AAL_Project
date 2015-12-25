@@ -3,7 +3,6 @@
 //
 
 #include "ProductionLine.h"
-#include "ArrayDestructor.hpp"
 #include <set>
 #include <sstream>
 #include <iostream>
