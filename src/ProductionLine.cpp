@@ -8,6 +8,7 @@
 #include <iostream>
 
 ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
+:moves()
 {
     n = initializingVector.size();
     current = new int [n];
@@ -24,11 +25,25 @@ ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
     k = counter.size();
 }
 
+std::forward_list<int> ProductionLine::getMoves() const
+{
+    return moves;
+}
+
 int& ProductionLine::operator[](int index)
 {
    return current[index];
 }
 
+const int & ProductionLine::operator[](int index) const
+{
+    return current[index];
+}
+/**
+ * This method is used to move k adjacent elements starting with 'position' to the end of production line.
+ * @param position index of first of k elements to move.
+ * @return
+ */
 int ProductionLine::moveToEnd(int position)
 {
     bool foundNewStart = false;
@@ -55,40 +70,7 @@ int ProductionLine::moveToEnd(int position)
         return newPosition;
 }
 
-int ProductionLine::correct(int referencePosition, int positionToCorrect)
-{
 
-    int correctedPosition = 0;
-    int candidateToMove = positionToCorrect;
-
-    //When element is at the end.
-    if(positionToCorrect == n-1)
-    {
-        moveToEnd(n-k-1);
-        return positionToCorrect-k;
-    }
-
-    if(positionToCorrect>=n-k)
-    {
-        candidateToMove = n - k - 1;
-    }
-
-    for(; candidateToMove >= referencePosition; --candidateToMove)
-    {
-        if(candidateToMove == referencePosition || candidateToMove + k - 1 == positionToCorrect)
-        {
-            correctedPosition = moveToEnd(candidateToMove);
-            return correctedPosition+ (positionToCorrect - candidateToMove);
-        }
-
-        if((( (positionToCorrect - referencePosition) + (n  - (candidateToMove + k))) % k == 0))
-        {
-            correctedPosition = moveToEnd(candidateToMove);
-            return correctedPosition + (positionToCorrect - candidateToMove);
-        }
-    }
-    return correctedPosition;
-}
 
 void ProductionLine::display() const
 {
