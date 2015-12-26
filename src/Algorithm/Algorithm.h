@@ -16,7 +16,7 @@ public:
 
     Algorithm(const std::vector<int> & input, AlgorithmType algorithmType);
 
-    std::chrono::duration<long,std::micro> getSortingTime() const;
+    std::chrono::duration<long,std::milli> getSortingTime() const;
     ProductionLine getResult() const;
 
 private:
@@ -26,7 +26,7 @@ private:
     int currentElement;
     ProductionLine productionLine;
     AlgorithmType algorithm;
-    std::chrono::microseconds timespan;
+    std::chrono::milliseconds timespan;
 };
 
 #endif //AAL_BASICALGORITHM_H

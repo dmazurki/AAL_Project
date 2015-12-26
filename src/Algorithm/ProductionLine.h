@@ -15,8 +15,6 @@ class ProductionLine
 
 public:
     ProductionLine(const std::vector<int> & initializingVector);
-//    ProductionLine::ProductionLine(const ProductionLine & orig);
-
 
     const int & operator[](int index) const;
 
@@ -30,8 +28,9 @@ private:
     int moveToEnd(int index);
     int & operator[](int index);
 
-    int * current;
-    int * other;
+    std::shared_ptr<int> current;
+    std::shared_ptr<int> other;
+
     int n;
     int k;
     std::list<int> moves;

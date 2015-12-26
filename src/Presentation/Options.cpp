@@ -8,8 +8,8 @@
 Options::Options(int argc, char ** argv)
 {
 
-    options["n"] = 25;
-    options["k"] = 3;
+    options["n"] = "25";
+    options["k"] = "3";
 
     for(std::string s : OPTIONS_WITHOUT_ARGUMENTS)
     {

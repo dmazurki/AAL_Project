@@ -69,21 +69,14 @@ Algorithm::Algorithm(const std::vector<int> & input, Algorithm::AlgorithmType al
     }
     std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
 
-    timespan = std::chrono::duration_cast<std::chrono::microseconds>(endTime-startTime);
+    timespan = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime);
 }
 
-std::chrono::duration<long, std::micro> Algorithm::getSortingTime() const{ return timespan;}
+std::chrono::duration<long, std::milli> Algorithm::getSortingTime() const{ return timespan;}
 
 ProductionLine Algorithm::getResult() const
 {
-    std::vector<int> returnValue(productionLine.getN());
-
-    for(int i=0; i<productionLine.getN(); ++i)
-    {
-        returnValue[i] = productionLine[i];
-    }
-
-    return returnValue;
+    return productionLine;
 }
 
 

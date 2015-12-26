@@ -11,9 +11,9 @@ ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
 :moves()
 {
     n = initializingVector.size();
-    current = new int [n];
-    other = new int [n];
-    std::shared_ptr<int> a = std::shared_ptr<int>(new int[22],[](int * t)->void{delete [] t;});
+    current = std::shared_ptr<int>(new int[n],[](int * t)->void{delete [] t;});
+    other = std::shared_ptr<int>(new int[n],[](int * t)->void{delete [] t;});
+
 
     std::set<int> counter;
 
@@ -21,12 +21,11 @@ ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
     for(int i = 0; i<n;++i)
     {
         counter.insert(initializingVector[i]);
-        current[i] = initializingVector[i];
+        current.get()[i] = initializingVector[i];
     }
 
     k = counter.size();
 }
-
 
 
 std::list<int> ProductionLine::getMoves() const
@@ -36,12 +35,12 @@ std::list<int> ProductionLine::getMoves() const
 
 int& ProductionLine::operator[](int index)
 {
-   return current[index];
+   return current.get()[index];
 }
 
 const int & ProductionLine::operator[](int index) const
 {
-    return current[index];
+    return current.get()[index];
 }
 /**
  * This method is used to move k adjacent elements starting with 'position' to the end of production line.
@@ -57,10 +56,10 @@ int ProductionLine::moveToEnd(int position)
         for(int i = 0; i<n; i++)
         {
             if(i<position)
-                other[i]=current[i];
+                other.get()[i]=current.get()[i];
             else
             if(i>=position&&i<n-k)
-                other[i]=current[i+k];
+                other.get()[i]=current.get()[i+k];
             else
             {
                 if(foundNewStart==false)
@@ -68,10 +67,11 @@ int ProductionLine::moveToEnd(int position)
                     newPosition=i;
                     foundNewStart=true;
                 }
-                other[i] = current[position + (k + i - n) ];
+                other.get()[i] = current.get()[position + (k + i - n) ];
             }
         }
-        std::swap(current,other);
+
+    current.swap(other);
         return newPosition;
 }
 
@@ -82,13 +82,12 @@ void ProductionLine::display() const
     std::cout<<"[";
     for(int i = 0 ; i<n; i++)
     {
-        std::cout<<current[i]<<" ";
+        std::cout<<current.get()[i]<<" ";
     }
     std::cout<<"]";
-    std::cout<<"n = "<<n<<" k = "<<k<<std::endl;
+    std::cout<<"n = "<<n<<" k = "<<k<<" moves: "<<moves.size()<<std::endl;
 }
 
 ProductionLine::~ProductionLine() {
-    delete[]current;
-    delete[]other;
+
 }

@@ -10,9 +10,11 @@ using namespace std;
 
 int main(int argc, char ** argv) {
 
-    char * opts[7] = {"-generator","-n","150","-k","4","-time","-steps"};
-    Options options(7,opts);
+    char * opts[1] = {"-presentation"};
+    Options options(1,opts);
     Application application(options);
+
+
 
 
     return 0;
