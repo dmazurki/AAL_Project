@@ -13,6 +13,7 @@ Algorithm::Algorithm(const std::vector<int> & input, Algorithm::AlgorithmType al
     int k = productionLine.getK();
 
     for (currentPosition = 0; currentPosition < n - k; ++currentPosition) {
+
         //In this case we do not need to move this element.
         if (productionLine[currentPosition] == currentElement) {
             currentElement = (currentElement + 1) % k;
@@ -22,9 +23,40 @@ Algorithm::Algorithm(const std::vector<int> & input, Algorithm::AlgorithmType al
         int explorer = currentPosition;
 
         //Searching for element to place on current position.
-        for (; explorer < n; explorer++)
-            if (productionLine[explorer] == currentElement)
-                break;
+
+        if(algorithmType == BASIC) {
+            for (; explorer < n; explorer++)
+                if (productionLine[explorer] == currentElement)
+                    break;
+        }
+        else if(algorithmType == PATTERN_SEEKING)
+        {
+            int bestChoice = explorer;
+            int bestChoiceLength = 0;
+            for(;explorer < n; explorer++)
+            {
+                if(productionLine[explorer]==currentElement)
+                {
+                    int length = 1;
+                    int elementMatch = currentElement+1;
+                    for(int i = 1;i<k && elementMatch<k && explorer+i < n; i++, elementMatch++)
+                    {
+                        if(productionLine[explorer+i]==elementMatch)
+                            length++;
+                        else
+                            break;
+                    }
+
+                    if(length>bestChoiceLength)
+                    {
+                        bestChoice=explorer;
+                        bestChoiceLength=length;
+                    }
+                }
+            }
+            explorer=bestChoice;
+        }
+
 
         explorer = correctPosition(explorer);
 
@@ -85,6 +117,7 @@ int Algorithm::correctPosition(int positionToCorrect)
             {
                 productionLine.moveToEnd(candidateToMove);
                 positionToCorrect  =  n - k + (positionToCorrect - candidateToMove);
+                break;
             }
         }
     }

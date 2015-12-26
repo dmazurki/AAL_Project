@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
-#include "ProductionLine.h"
-#include "Algorithm.h"
+#include "Algorithm/ProductionLine.h"
+#include "Algorithm/Algorithm.h"
+#include "Algorithm/InputDataGenerator.h"
 
 using namespace std;
 
 int main() {
 
-    std::vector<int> init = {0,1,2,2,0,0,2,1,1,1,2};
-
-    Algorithm solution = Algorithm(init,Algorithm::BASIC);
-
+    std::vector<int> data = InputDataGenerator(1000,10).generate();
+    Algorithm solution = Algorithm(data,Algorithm::BASIC);
     solution.getResult().display();
 
     return 0;
