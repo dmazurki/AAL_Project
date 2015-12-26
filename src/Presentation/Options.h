@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 /**
  * Class for parsing options passed to application and accessing them.
@@ -14,6 +15,9 @@
 class Options
 {
 public:
+    static const std::vector<std::string> OPTIONS_WITHOUT_ARGUMENTS;
+    static const std::vector<std::string> OPTIONS_WITH_ARGUMENTS;
+
     Options(int argc, char ** argv);
 
     const std::string & getString(const std::string & option);
@@ -21,9 +25,8 @@ public:
     bool getBool(const std::string & option);
 
 private:
-    char * getCmdOption(int argc, char ** argv, const std::string & option);
-    bool cmdOptionExists(int argc, char ** argv, const std::string & option);
-
+    char * getCmdOption(char ** begin, int elements, const std::string & option);
+    bool cmdOptionExists(char ** begin, int elements, const std::string & option);
 
     std::map<std::string,std::string> options;
 };

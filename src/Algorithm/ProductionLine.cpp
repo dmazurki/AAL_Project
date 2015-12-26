@@ -13,6 +13,8 @@ ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
     n = initializingVector.size();
     current = new int [n];
     other = new int [n];
+    std::shared_ptr<int> a = std::shared_ptr<int>(new int[22],[](int * t)->void{delete [] t;});
+
     std::set<int> counter;
 
 
@@ -25,7 +27,9 @@ ProductionLine::ProductionLine(const std::vector<int> &initializingVector)
     k = counter.size();
 }
 
-std::forward_list<int> ProductionLine::getMoves() const
+
+
+std::list<int> ProductionLine::getMoves() const
 {
     return moves;
 }
@@ -46,6 +50,7 @@ const int & ProductionLine::operator[](int index) const
  */
 int ProductionLine::moveToEnd(int position)
 {
+    moves.push_back(position);
     bool foundNewStart = false;
     int newPosition = 0;
 

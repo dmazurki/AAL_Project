@@ -6,7 +6,7 @@
 #define AAL_PRODUCTIONLINE_H
 
 #include <vector>
-#include <forward_list>
+#include <list>
 #include <memory>
 
 class ProductionLine
@@ -15,10 +15,12 @@ class ProductionLine
 
 public:
     ProductionLine(const std::vector<int> & initializingVector);
+//    ProductionLine::ProductionLine(const ProductionLine & orig);
+
 
     const int & operator[](int index) const;
 
-    std::forward_list<int> getMoves() const;
+    std::list<int> getMoves() const;
     void display() const;
     int getN() const { return n;};
     int getK() const { return k;};
@@ -32,7 +34,7 @@ private:
     int * other;
     int n;
     int k;
-    std::forward_list<int> moves;
+    std::list<int> moves;
 
 };
 
