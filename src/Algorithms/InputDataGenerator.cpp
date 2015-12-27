@@ -4,15 +4,16 @@
 
 #include "InputDataGenerator.h"
 #include <chrono>
+#include <list>
 #include <random>
 #include <functional>
 
 InputDataGenerator::InputDataGenerator(int n_, int k_)
         :n(n_), k(k_){}
 
-std::vector<int> InputDataGenerator::generate() const
+std::list<int> InputDataGenerator::generate() const
 {
-    std::vector<int> generated(n);
+    std::list<int> generated;
 
     long seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
@@ -20,7 +21,7 @@ std::vector<int> InputDataGenerator::generate() const
 
     for(int i = 0; i<n; ++i)
     {
-        generated[i] = distribution(generator);
+        generated.push_back(distribution(generator));
     }
 
     return generated;

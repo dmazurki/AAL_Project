@@ -47,7 +47,7 @@ char * Options::getCmdOption(char ** begin, int elements, const std::string & op
     if (foundOption!=end && ++foundOption!=end)
         return *foundOption;
     else
-        return "";
+        return nullptr;
 }
 bool Options::cmdOptionExists(char ** begin, int elements, const std::string & option)
 {
@@ -65,6 +65,8 @@ const std::vector<std::string> Options::OPTIONS_WITHOUT_ARGUMENTS =
          "pattern_seeking",
 
          "time",
+         "list_steps",
          "steps",
+         "result"
         };
 const std::vector<std::string> Options::OPTIONS_WITH_ARGUMENTS = {"n","k"};

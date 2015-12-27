@@ -11,6 +11,7 @@
  */
 
 #include "Options.h"
+#include "../Algorithms/Algorithm.h"
 
 class Application
 {
@@ -22,6 +23,10 @@ private:
     void generatorExecution();
     void presentationExecution();
     void showHelp();
+
+    void presentResult(const Algorithm & algorithms);
+    void readAndSolve(int problemSize);
+    Algorithm::AlgorithmType getAlgorithmType();
 
     Options options;
 };

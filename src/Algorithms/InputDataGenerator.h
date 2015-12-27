@@ -8,7 +8,7 @@
  * @author Damian Mazurkiewicz
  */
 
-#include <vector>
+#include <list>
 
 
 class InputDataGenerator
@@ -16,7 +16,7 @@ class InputDataGenerator
 public:
     InputDataGenerator(int n, int k);
 
-    std::vector<int> generate() const;
+    std::list<int> generate() const;
 
     /**Set size of generated vectors.*/
     void setN(int n);
