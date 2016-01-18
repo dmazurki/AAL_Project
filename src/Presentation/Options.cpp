@@ -62,6 +62,7 @@ const std::vector<std::string> Options::OPTIONS_WITHOUT_ARGUMENTS =
          "generator",
          "presentation",
 
+         "basic_algorithm",
          "pattern_seeking",
 
          "time",
