@@ -20,9 +20,9 @@ public:
 
     Options(int argc, char ** argv);
 
-    const std::string & getString(const std::string & option);
     int getInt(const std::string & option);
     bool getBool(const std::string & option);
+    const std::string & getString(const std::string & option);
 
 private:
     char * getCmdOption(char ** begin, int elements, const std::string & option);

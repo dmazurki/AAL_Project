@@ -7,7 +7,6 @@
 
 Options::Options(int argc, char ** argv)
 {
-
     options["n"] = "25";
     options["k"] = "3";
 
@@ -34,9 +33,7 @@ int Options::getInt(const std::string & option)
 }
 bool Options::getBool(const std::string & option)
 {
-    if(!options[option].empty())
-        return true;
-    return false;
+    return !options[option].empty();
 }
 
 char * Options::getCmdOption(char ** begin, int elements, const std::string & option)
@@ -56,18 +53,24 @@ bool Options::cmdOptionExists(char ** begin, int elements, const std::string & o
 }
 
 const std::vector<std::string> Options::OPTIONS_WITHOUT_ARGUMENTS =
-        {"help",
+        {
+                "help",
 
-         "user_input",
-         "generator",
-         "presentation",
+                "user_input",
+                "generator",
+                "presentation",
 
-         "basic_algorithm",
-         "pattern_seeking",
+                "basic_algorithm",
+                "pattern_algorithm",
 
-         "time",
-         "list_steps",
-         "steps",
-         "result"
+                "time",
+                "list_steps",
+                "steps",
+                "result"
         };
-const std::vector<std::string> Options::OPTIONS_WITH_ARGUMENTS = {"n","k"};
+
+const std::vector<std::string> Options::OPTIONS_WITH_ARGUMENTS =
+        {
+                "n",
+                "k"
+        };

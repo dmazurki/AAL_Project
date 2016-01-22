@@ -1,13 +1,13 @@
 /**
  * author: Damian Mazurkiewicz
  */
-
 #include "Algorithm.h"
 #include <set>
 #include <iostream>
 #include <cmath>
 
 bool Algorithm::rememberSteps = false;
+
 void Algorithm::setRememberingSteps(bool val)
 {
     rememberSteps = val;
@@ -23,17 +23,16 @@ Algorithm::Algorithm(const std::list<int> & input, Algorithm::AlgorithmType algo
     for(int i : line)
         counter.insert(i);
 
-    n = line.size();
-    k = counter.size();
+    n = static_cast<int>(line.size());
+    k = static_cast<int>(counter.size());
 
     std::chrono::high_resolution_clock::time_point startTime = std::chrono::high_resolution_clock::now();
 
     currentPosition = Position(0,line.begin());
-    for (; currentPosition.first < n - k; increment(currentPosition)) {
+    for (; currentPosition.first < n - k; increment(currentPosition), currentElement = (currentElement + 1) % k) {
 
         //In this case we do not need to move this element.
         if (*currentPosition.second == currentElement) {
-            currentElement = (currentElement + 1) % k;
             continue;
         }
 
@@ -41,13 +40,13 @@ Algorithm::Algorithm(const std::list<int> & input, Algorithm::AlgorithmType algo
 
         //Searching for element to place on current position.
         if(algorithmType == BASIC) {
-            for (; explorer.first<n-1; increment(explorer))
+            for (; explorer.second!=line.end(); increment(explorer))
                 if (*explorer.second == currentElement)
                     break;
         }
         else if(algorithmType == PATTERN_SEEKING)
         {
-            Position bestChoice = explorer;
+            Position bestChoice = Position(n,line.end());
             int bestChoiceLength = 0;
             for(;explorer.second!=line.end(); increment(explorer))
             {
@@ -56,8 +55,10 @@ Algorithm::Algorithm(const std::list<int> & input, Algorithm::AlgorithmType algo
                     int length = 1;
                     int elementMatch = (currentElement+1)%k;
                     Position measure = explorer;
+                    increment(measure);
 
-                    for(;length<=k, measure.second!=line.end(); increment(measure), elementMatch=(elementMatch+1)%k)
+
+                    for(;length<k && measure.second!=line.end(); increment(measure), elementMatch=(elementMatch+1)%k)
                     {
                         if(*measure.second==elementMatch)
                             length++;
@@ -75,6 +76,9 @@ Algorithm::Algorithm(const std::list<int> & input, Algorithm::AlgorithmType algo
             explorer=bestChoice;
         }
 
+        if(explorer.second==line.end())
+            break;
+
 
         explorer = correctPosition(explorer);
 
@@ -82,12 +86,11 @@ Algorithm::Algorithm(const std::list<int> & input, Algorithm::AlgorithmType algo
         for (; movesToDo > 0; --movesToDo) {
             moveToEnd(currentPosition);
         }
-        currentElement = (currentElement + 1) % k;
 
     }
     std::chrono::high_resolution_clock::time_point endTime = std::chrono::high_resolution_clock::now();
 
-    timespan = std::chrono::duration_cast<std::chrono::milliseconds>(endTime-startTime).count();
+    timeSpan = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 }
 
 
@@ -100,16 +103,14 @@ Algorithm::Position Algorithm::correctPosition(Algorithm::Position positionToCor
         //When element is at the end.
         if(positionToCorrect.first == n-1)
         {
-            Algorithm::Position pos(n, line.end());
-            for(int i = 0; i<k+1;++i) decrement(pos);
+            Algorithm::Position pos(n-k-1, std::prev(line.end(),k+1));
             positionToCorrect = moveToEnd(pos);
             continue;
         }
 
         if(positionToCorrect.first>=n-k)
         {
-            Algorithm::Position pos(n, line.end());
-            for(int i = 0; i<k+1;++i) decrement(pos);
+            Algorithm::Position pos(n-k-1, std::prev(line.end(),k+1));
             candidateToMove = pos;
         }
 
@@ -120,8 +121,7 @@ Algorithm::Position Algorithm::correctPosition(Algorithm::Position positionToCor
             {
                 moveToEnd(candidateToMove);
                 int space = positionToCorrect.first - candidateToMove.first;
-                Algorithm::Position newPositionToCorrect(n, line.end());
-                for(int i =0; i<k-space; i++) decrement(newPositionToCorrect);
+                Algorithm::Position newPositionToCorrect(n-k+space, std::prev(line.end(),k-space));
                 positionToCorrect  =  newPositionToCorrect;
                 break;
             }
@@ -140,16 +140,16 @@ const int Algorithm::getN() const {return n;};
 const int Algorithm::getK() const {return k;};
 
 
-long Algorithm::getSortingTime() const{ return timespan;}
+long Algorithm::getSortingTime() const{ return timeSpan;}
 
 /**
- * This method is used to move k adjacent elements starting with 'position' to the end of production line.
- * @param position index of first of k elements to move.
+ * Function used to move k adjacent elements starting at 'position' to the end of the production line.
+ * @param position index of first element to move.
  * @return
  */
 Algorithm::Position Algorithm::moveToEnd(Algorithm::Position position)
 {
-    if(rememberSteps == true)
+    if(rememberSteps)
         steps.push_back(position.first);
 
     stepsQuantity++;
@@ -165,14 +165,15 @@ Algorithm::Position Algorithm::moveToEnd(Algorithm::Position position)
     return Algorithm::Position(position.first, sequenceEnd);
 }
 
+
 void Algorithm::increment(Algorithm::Position  & p) { ++p.first; ++p.second;}
 void Algorithm::decrement(Algorithm::Position  & p) { --p.first; --p.second;}
 
 double Algorithm::getQ(int n, long time, int nMedian, long timeMedian, AlgorithmType type) {
-    double nD = (double) n;
-    double timeD = (double) time;
-    double nMedianD = (double) nMedian;
-    double timeMedianD = (double) timeMedian;
+    double nAsDouble = (double) n;
+    double timeAsDouble = (double) time;
+    double nMedianAsDouble = (double) nMedian;
+    double timeMedianAsDouble = (double) timeMedian;
 
-    return (timeD/(nD*nD))*((nMedianD*nMedianD)/timeMedianD);
+    return (timeAsDouble / (nAsDouble * nAsDouble)) * ((nMedianAsDouble * nMedianAsDouble) / timeMedianAsDouble);
 }

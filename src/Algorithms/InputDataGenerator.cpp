@@ -4,7 +4,6 @@
 
 #include "InputDataGenerator.h"
 #include <chrono>
-#include <list>
 #include <random>
 #include <functional>
 
@@ -26,7 +25,3 @@ std::list<int> InputDataGenerator::generate() const
 
     return generated;
 }
-
-void InputDataGenerator::setN(int n_) { n = n_;}
-
-void InputDataGenerator::setK(int k_) { k = k_;};

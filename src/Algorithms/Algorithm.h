@@ -2,8 +2,7 @@
 #define AAL_ALGORITHM_H
 
 /**
- * Class that implements algorithms that sort production lines,
- *
+ * Class that implements algorithms that sort production lines.
  * @author Damian Mazurkiewicz
  */
 
@@ -50,7 +49,7 @@ private:
     int currentElement;
     Position currentPosition;
     AlgorithmType algorithm;
-    long timespan;
+    long timeSpan;
 };
 
 #endif //AAL_ALGORITHM_H

@@ -1,13 +1,11 @@
-//
-// Created by damian on 26.12.15.
-//
-
+/**
+ * author: Damian Mazurkiewicz
+ */
 #include <iostream>
 #include <iomanip>
 #include <cmath>
 #include "Application.h"
 #include "../Algorithms/InputDataGenerator.h"
-#include "../Algorithms/Algorithm.h"
 
 Application::Application(const Options & options_)
 :options(options_)
@@ -15,13 +13,15 @@ Application::Application(const Options & options_)
     if(options.getBool("list_steps"))
         Algorithm::setRememberingSteps(true);
 
+    if(options.getBool("help"))
+        showHelp();
+
     if(options.getBool("generator"))
         generatorExecution();
-
+    else
     if(options.getBool("presentation"))
         presentationExecution();
-
-    if(options.getBool("user_input"))
+    else
         runUserInputExecution();
 }
 
@@ -57,17 +57,17 @@ void Application::readAndSolve(int problemSize)
 
 }
 
+/**
+ * Execution type with data generated randomly.
+ */
 void Application::generatorExecution()
 {
-    int n = options.getInt("n");
-    int k = options.getInt("k");
-
-
-    InputDataGenerator generator(n,k);
+    InputDataGenerator generator(options.getInt("n"), options.getInt("k"));
     Algorithm algorithm(generator.generate(), getAlgorithmType());
 
     presentResult(algorithm);
 }
+
 void Application::presentationExecution()
 {
     int k = options.getInt("k");
@@ -138,20 +138,20 @@ void Application::presentationExecution()
 
 void Application::showHelp()
 {
-
+    std::cout<<"For information about execution modes and program parameters check readme.txt file.";
 }
 
 void Application::presentResult(const Algorithm & algorithm)
 {
-    std::cout<<"Computed input: n = "<<algorithm.getN()<<" k = "<<algorithm.getK()<<std::endl;
+    std::cout<<"Problem solved for n = "<<algorithm.getN()<<", k = "<<algorithm.getK()<<std::endl;
     if(options.getBool("result"))
     {
-        std::cout<<"After sorting:"<<std::endl<<"[";
+        std::cout<<"After sorting:"<<std::endl;
         for(int val : algorithm.getResult())
         {
             std::cout<<val<<", ";
         }
-        std::cout<<"]"<<std::endl;
+        std::cout<<std::endl;
     }
     if(options.getBool("time"))
     {
@@ -160,12 +160,12 @@ void Application::presentResult(const Algorithm & algorithm)
 
     if(options.getBool("steps"))
     {
-        std::cout<<"Steps: "<<algorithm.getStepsQuantity()<<std::endl;
+        std::cout<<"Steps quantity: "<<algorithm.getStepsQuantity()<<std::endl;
     }
 
     if(options.getBool("list_steps"))
     {
-        std::cout<<"Steps:";
+        std::cout<<"List of steps:";
         for(int i : algorithm.getSteps())
             std::cout<<i<<", ";
         std::cout<<std::endl;
@@ -174,9 +174,8 @@ void Application::presentResult(const Algorithm & algorithm)
 
 Algorithm::AlgorithmType Application::getAlgorithmType()
 {
-    if(options.getBool("pattern_seeking"))
+    if(options.getBool("pattern_algorithm"))
         return Algorithm::PATTERN_SEEKING;
-
     else
         return Algorithm::BASIC;
 }

@@ -17,7 +17,6 @@ wypełnić powstałą lukę. Ułożyć plan pracy suwnicy, dyktujący w kolejnyc
 przemieścić na koniec sekwencji. Wykonać jak najmniejszą liczbę ruchów. Porównać czasy obliczeń i wyniki
 różnych metod.
 
-
 -------------------------------------------------------------------------------------------------------
 3. Parametry aktywacji programu.
 -------------------------------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ Lista parametrów:
 
 //pomocnicze
 -help  (domyślnie: wyłączona)
-opis: Program po uruchomieniu wyświetla treść pliku readme.txt.
+opis: Program po uruchomieniu informację o tym pliku.
 
 
 //tryby działania
@@ -44,12 +43,16 @@ przykład użycia: ./sorter -uset_input 0 1 0 1 1 2 2 0 1 -1   3 2 1 0 3 3 3 2 1
 opis: Ten tryb wykonania sprowadza się do rozwiązania jednego problemu o parametrach n,k. W którym
 początkowy stan linii produkcyjnej jest generowany losowo.
 
--presentation
-
+-presentation (domyślnie: wyłączone)
+opis: Tryb wspiera weryfikację szacowanej złożoności czasowej, umożliwia tabelaryczne przedstawienie
+czasów pomiarów dla zadanych wielkości problemów.
 
 //wybór algorytmu
--basic_algorithm
--pattern_seeking
+-basic_algorithm (domyślnie: włączone)
+opis: Do sortowania używany będzie algorytm numer 1.
+
+-pattern_seeking (domyślnie wyłączone)
+opis: Do sortowania będzie używany algorytm nr 2 ( z wyszukiwaniem posortowanych podciągów).
 
 
 //parametry problemu
@@ -77,11 +80,30 @@ jaka potrzebna była niego potrzebna.
 opis: Wyświetlenie linii produkcyjnej po posortowaniu.
 
 -------------------------------------------------------------------------------------------------------
-4. Metoda rozwiązania.
+4. Pliki źródłówe.
 -------------------------------------------------------------------------------------------------------
 
+Algorithm.cpp, Algorithm.h - Klasa algorytmu, który sortuje komponenty na linii produkcyjnej według ograniczeń
+wynikających z treści zadania.
+
+Application.cpp, Application.h - Klasa zarządzająca wykonaniem programu, interpretuje argumenty podane na wejściu
+oraz dane podawane przez  użytwownika, uruchamia algorytm sortowania i wyświetl wyniki.
+
+InputDataGenerator.cpp, InputDataGenerator.h - klasa używana do generacji początkowych stanów linii produkcyjnych
+w formie list liczb
+
+Options.cpp, Options.h - Klasa odpowiedzialna za wyodrębnienie opcji podanych w liście argumentów przez użytkownika.
+przechowywanie ich oraz gwarantowanie prostego dostępu do nich.
+
+
 -------------------------------------------------------------------------------------------------------
-5. Pliki źródłówe.
+5. Założenia projektowe.
 -------------------------------------------------------------------------------------------------------
 
-6. Założenia projektowe.
+-Nie jest gwarantowane to, że wszystkie elementy zostaną posortowane. Dla n elementów na linii produkcyjnej
+i k elementów wchodzących w skład urządzenia, k ostatnich elementów może zostać nieposortowanych, nawet
+gdy istnieją jeszcze potrzebne elementy.
+
+-Linia produkcyjna jest reprezentowana jako lista zmiennych typu int. Przy czym 0 oznacza pierwszy element kompletu
+a każdy kolejny w posortowanym komplecie jest większy o 1 od poprzedniego.
+
