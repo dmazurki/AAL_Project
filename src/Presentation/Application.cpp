@@ -19,8 +19,11 @@ Application::Application(const Options & options_)
     if(options.getBool("generator"))
         generatorExecution();
     else
-    if(options.getBool("presentation"))
-        presentationExecution();
+    if(options.getBool("presentation_n"))
+        presentationNExecution();
+    else
+    if(options.getBool("presentation_k"))
+        presentationKExecution();
     else
         runUserInputExecution();
 }
@@ -67,8 +70,76 @@ void Application::generatorExecution()
 
     presentResult(algorithm);
 }
+void Application::presentationKExecution()
+{
+    int n = options.getInt("n");
+    int currentK;
 
-void Application::presentationExecution()
+
+    std::list<std::pair<int,long>> times;
+
+    while(true)
+    {
+        std::cin>>currentK;
+
+        if(!std::cin.good())
+            continue;
+
+        if(currentK<0)
+            break;
+
+        Algorithm algorithm(InputDataGenerator(n, currentK).generate(), getAlgorithmType());
+        presentResult(algorithm);
+
+        times.push_back(std::make_pair(currentK,algorithm.getSortingTime()));
+    }
+
+    int width = 21;
+    std::cout<<std::setiosflags(std::ios::left);
+    std::cout<<std::setw(width)<<"k"<<std::setw(width)<<"t(k)[ms]"<<"q(k)"<<std::endl;
+
+    int medianSeek = 0;
+    auto medianSeekIterator = times.begin();
+
+    int kMedian;
+    long timeMedian;
+
+    if(times.size()%2 ==  0)
+    {
+        while(medianSeek != (times.size()/2 -1))
+        {
+            ++medianSeek;
+            ++medianSeekIterator;
+        }
+
+        auto next = medianSeekIterator;
+        ++next;
+
+        kMedian = (medianSeekIterator->first + next->first) / 2;
+        timeMedian = (medianSeekIterator->second + next->second)/2;
+
+    }
+    else {
+        while (medianSeek != (times.size() / 2)) {
+            ++medianSeek;
+            ++medianSeekIterator;
+        }
+        kMedian = medianSeekIterator->first;
+        timeMedian = medianSeekIterator->second;
+    }
+
+
+    for(auto p : times)
+    {
+        std::cout << std::setw(width) << p.first << std::setw(width) << p.second << Algorithm::getQk(p.first, p.second,
+                                                                                                    kMedian, timeMedian, Algorithm::BASIC) << std::endl;
+    }
+    std::cout << "k median: " << kMedian << " t(k) median: " << timeMedian << std::endl;
+
+
+}
+
+void Application::presentationNExecution()
 {
     int k = options.getInt("k");
     int currentN;

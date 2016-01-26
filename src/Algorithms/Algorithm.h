@@ -29,6 +29,8 @@ public:
 
 
     static double getQ(int n, long time, int nMedian, long timeMedian, AlgorithmType type);
+    static double getQk(int k, long time, int kMedian, long timeMedian, AlgorithmType type);
+
     static void setRememberingSteps(bool val);
     static bool rememberSteps;
 

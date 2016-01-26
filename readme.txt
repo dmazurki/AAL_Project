@@ -44,8 +44,12 @@ opis: Ten tryb wykonania sprowadza się do rozwiązania jednego problemu o param
 początkowy stan linii produkcyjnej jest generowany losowo.
 
 -presentation (domyślnie: wyłączone)
-opis: Tryb wspiera weryfikację szacowanej złożoności czasowej, umożliwia tabelaryczne przedstawienie
-czasów pomiarów dla zadanych wielkości problemów.
+opis: Tryb wspiera weryfikację szacowanej złożoności czasowej  w zależności od n, umożliwia
+tabelaryczne przedstawienie czasów pomiarów dla zadanych wielkości problemów.
+
+-presentation_k (domyślnie: wyłączone)
+opis: Tryb wspiera weryfikację szacowanej złożoności czasowej w zależności od k,
+umożliwia tabelaryczne przedstawienie czasów pomiarów dla zadanych wielkości problemów.
 
 //wybór algorytmu
 -basic_algorithm (domyślnie: włączone)

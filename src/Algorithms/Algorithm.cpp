@@ -177,3 +177,12 @@ double Algorithm::getQ(int n, long time, int nMedian, long timeMedian, Algorithm
 
     return (timeAsDouble / (nAsDouble * nAsDouble)) * ((nMedianAsDouble * nMedianAsDouble) / timeMedianAsDouble);
 }
+
+double Algorithm::getQk(int k, long time, int kMedian, long timeMedian, AlgorithmType type) {
+    double kAsDouble = (double) k;
+    double timeAsDouble = (double) time;
+    double kMedianAsDouble = (double) kMedian;
+    double timeMedianAsDouble = (double) timeMedian;
+
+    return (timeAsDouble / (kAsDouble*kAsDouble)) * ((kMedianAsDouble*kMedianAsDouble) / timeMedianAsDouble);
+}

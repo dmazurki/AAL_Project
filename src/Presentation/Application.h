@@ -21,7 +21,9 @@ public:
 private:
     void runUserInputExecution();
     void generatorExecution();
-    void presentationExecution();
+    void presentationNExecution();
+    void presentationKExecution();
+
     void showHelp();
 
     void presentResult(const Algorithm & algorithms);

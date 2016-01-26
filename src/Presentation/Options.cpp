@@ -58,7 +58,8 @@ const std::vector<std::string> Options::OPTIONS_WITHOUT_ARGUMENTS =
 
                 "user_input",
                 "generator",
-                "presentation",
+                "presentation_n",
+                "presentation_k",
 
                 "basic_algorithm",
                 "pattern_algorithm",
